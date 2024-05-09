@@ -14,7 +14,7 @@ In order to use this in your code, do:
 \showNOTEtrue
 ```
 
-You can:
+You can use these variables:
 - `\showTODO` hides all `\TODO{}` and `\TODOd{}`.
 - `\linkTODO` hides forward-backward linkes from TODO lines.
 - `\showNOTE` hides all `\note{}` and `\blocknote{}`.
