@@ -1,0 +1,261 @@
+% Vypisy apod
+
+\usepackage{amsmath}
+\newenvironment{eqad}{\begin{equation}\begin{aligned}}{\end{aligned}\end{equation}}
+\newenvironment{eqad*}{\begin{equation*}\begin{aligned}}{\end{aligned}\end{equation*}}
+
+\newcommand{\vl}[2]{$#1\,\text{#2}$}
+\newcommand{\vle}[2]{#1\,\text{#2}}
+\newcommand{\ela}[2]{$#1 = #2$}
+\newcommand{\el}[3]{$#1 = #2\,\text{#3}$}
+\newcommand{\ii}{\noindent}
+\newcommand{\iib}[1]{\bigskip \noindent \textbf{#1}}
+
+% Use \cref and \Cref instead.
+%\newcommand{\refeq}[1]{Equation~\ref{eq:#1}}
+%\newcommand{\reffig}[1]{Figure~\ref{fig:#1}}
+%\newcommand{\refsec}[1]{Section~\ref{sec:#1}}
+%\newcommand{\refssec}[1]{Subsection~\ref{ssec:#1}}
+%\newcommand{\refalg}[1]{Algorithm~\ref{alg:#1}}
+%
+%\newcommand{\refcite}[1]{\textcolor{lightgray}{[#1]}}
+%
+%\newcommand{\labeleq}[1]{\label{eq:#1}}
+%\newcommand{\labelfig}[1]{\label{fig:#1}}
+%\newcommand{\labelsec}[1]{\label{sec:#1}}
+%\newcommand{\labelssec}[1]{\label{ssec:#1}}
+%\newcommand{\labelalg}[1]{\label{alg:#1}}
+
+
+% TODO
+
+\usepackage{tocloft}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+% Toggle TODOs
+\newif\ifshowTODO
+\showTODOfalse
+\newif\iflinkTODO
+\linkTODOfalse
+
+\newcommand{\listTODOname}{TODO list}
+\newlistof[subsection]{TODO}{todos}{\listTODOname}
+
+%\newcommand{\TODO}[1]{}
+%\newcommand{\TODOd}[1]{}
+
+\newcommand{\TODO}[1]{%
+\ifshowTODO
+\refstepcounter{TODO}
+\iflinkTODO
+\textcolor{red}{\hyperref[todolist]{\textbf{TODO: #1}}}
+\else
+\textcolor{red}{\textbf{TODO: #1}}
+\fi
+\addcontentsline{todos}{TODO}{\thesubsection\quad\textcolor{red}{#1}}
+\fi}
+
+\newcommand{\TODOd}[1]{%
+\ifshowTODO
+\refstepcounter{TODO}
+\textcolor{green!70!blue}{\textbf{TODO: #1}}
+\addcontentsline{todos}{TODO}{\thesubsection\quad\textcolor{green!70!blue}{#1}}
+\fi}
+
+%\addcontentsline{todos}{TODO}{\protect\numberline{\theTODO}\qquad\textcolor{green!70!blue}{#1}}}
+
+%https://tex.stackexchange.com/questions/118283/transforming-numbers-to-alph-numbers
+\newcommand{\makeAlph}[1]{%
+  \ifcase #1?\or a\or b\or c\or d\or e\or f\or g\or h\or
+    i\or j\or k\or l\or m\or n\or o\or p\or q\or r\or
+    s\or t\or u\or v\or w\or x\or y\or z\else ?\fi
+}
+
+\newcommand{\eA}[1]{\makeAlph{#1})}
+\newcommand{\eL}{\the\value{enumi}}
+
+% Kodovani (české znaky)
+\usepackage[utf8]{inputenc} %for linux users
+
+% TikZ
+\usepackage{tikz}
+\usetikzlibrary{math}
+\usetikzlibrary{patterns} % výplně
+\usetikzlibrary{intersections} % name path
+\usepackage{tikzscale} % \includegraphics[]{*.tikz}
+\usepackage{ifthen} % compare in tikz
+
+%Zisset
+\newcommand{\Zisset}[2]{
+    \ifthenelse{#1 > 0}{
+        #2
+    }{}
+}
+
+%Zissetelse
+\newcommand{\Zissetelse}[3]{
+    \ifthenelse{#1 > 0}{
+        #2
+    }{
+        #3
+    }
+}
+
+% axis environment (TikZ)
+\usepackage{pgfplots}
+
+% MATLAB colors
+\definecolor{matlab1}{rgb}{0, 0.447, 0.741}         % blue
+\definecolor{matlab2}{rgb}{0.85, 0.325, 0.098}      % orange
+\definecolor{matlab3}{rgb}{0.929, 0.694, 0.125}     % yellow
+\definecolor{matlab4}{rgb}{0.494, 0.184, 0.556}     % purple
+\definecolor{matlab5}{rgb}{0.466, 0.674, 0.188}     % green
+\definecolor{matlab6}{rgb}{0.301, 0.745, 0.933}     % cyan
+\definecolor{matlab7}{rgb}{0.635, 0.078, 0.184}     % maroon
+
+% Pseudocode
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\floatname{algorithm}{Algorithm}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+% Notes
+\newif\ifshowNOTE
+\showNOTEfalse
+\newcommand{\note}[1]{\ifshowNOTE\textcolor{lightgray}{[#1]}\fi}
+%\newcommand{\blocknote}[1]{\ifshowNOTE\ii{\color{lightgray}\fbox{\parbox{\linewidth}{#1}}}\fi}
+\usepackage{tcolorbox}
+% This is fbox with rounded corners and frame width same as size=normal
+\newcommand{\blocknote}[1]{\ifshowNOTE\ii\begin{tcolorbox}[colback=white,colframe=lightgray,size=fbox,arc=1mm,boxrule=0.5mm]{\color{gray}\parbox{\linewidth}{#1}}\end{tcolorbox}\fi}
+
+% Twofigure
+\usepackage{subcaption}
+\newlength{\twosubht}
+\newsavebox{\twosubbox}
+
+\newcommand{\includetwofigure}[9]{
+% img1, caption1, label1, img2, caption2, label2, caption, label
+% Za posledním argumentem musí být prázdná řádka, jinak figure křičí!
+
+% preliminary
+\sbox\twosubbox{%
+  \resizebox{\dimexpr.9\linewidth-1em}{!}{%
+    \includegraphics[width=0.5\linewidth]{#1}%
+    \includegraphics[width=0.5\linewidth]{#4}%
+  }%
+}
+\setlength{\twosubht}{\ht\twosubbox}
+
+% typeset
+
+\centering
+
+\subcaptionbox{#2#3}{%
+  \includegraphics[height=\twosubht]{#1}%
+}\quad
+\subcaptionbox{#5#6}{%
+  \includegraphics[height=\twosubht]{#4}%
+}
+
+\caption{#7}
+#8
+}
+
+% Tableau colors (Matplotlib)
+\definecolor{tab:blue}{rgb}{0.122, 0.467, 0.706}    % blue
+\definecolor{tab:orange}{rgb}{1.000, 0.498, 0.055}  % orange
+\definecolor{tab:green}{rgb}{0.173, 0.627, 0.173}   % green
+\definecolor{tab:red}{rgb}{0.839, 0.153, 0.157}     % red
+\definecolor{tab:purple}{rgb}{0.580, 0.404, 0.741}  % purple
+\definecolor{tab:brown}{rgb}{0.549, 0.337, 0.294}   % brown
+\definecolor{tab:pink}{rgb}{0.890, 0.467, 0.761}    % pink
+\definecolor{tab:gray}{rgb}{0.498, 0.498, 0.498}    % gray
+\definecolor{tab:olive}{rgb}{0.737, 0.741, 0.133}   % olive
+\definecolor{tab:cyan}{rgb}{0.090, 0.745, 0.812}    % cyan
+
+%% ^ Position redefinition
+\definecolor{matplotlib1}{rgb}{0.122, 0.467, 0.706}     % blue
+\definecolor{matplotlib2}{rgb}{1.000, 0.498, 0.055}     % orange
+\definecolor{matplotlib3}{rgb}{0.173, 0.627, 0.173}     % green
+\definecolor{matplotlib4}{rgb}{0.839, 0.153, 0.157}     % red
+\definecolor{matplotlib5}{rgb}{0.580, 0.404, 0.741}     % purple
+\definecolor{matplotlib6}{rgb}{0.549, 0.337, 0.294}     % brown
+\definecolor{matplotlib7}{rgb}{0.890, 0.467, 0.761}     % pink
+\definecolor{matplotlib8}{rgb}{0.498, 0.498, 0.498}     % gray
+\definecolor{matplotlib9}{rgb}{0.737, 0.741, 0.133}     % olive
+\definecolor{matplotlib10}{rgb}{0.090, 0.745, 0.812}    % cyan
+
+% Inline list
+\usepackage[inline]{enumitem}
+%\newlist{inlinelist}{enumerate*}{1}%
+%\setlist[inlinelist,1]{label=(\roman*), ref=\roman*}
+
+% https://tex.stackexchange.com/questions/296098/counting-items-in-itemize-or-enumerate-environments
+% New inline list that we can count.
+% One optional argument: name of label to obtain number of elements
+\makeatletter
+\newenvironment{inlinelist}[1][]
+  {\def\countname{#1}\begin{enumerate*}[label=(\roman*), after=]
+     %\setcounter{countlist}{0}%
+     %\let\olditem\item%
+     %\renewcommand{\item}{\stepcounter{countlist}\olditem\thecountlist}% This does not increment in inline list.
+     %\item \thecountlist
+  }
+  {%
+    \renewcommand{\@currentlabel}{\arabic{enumi}}%
+    \label{\countname}%
+    \end{enumerate*}%
+}% Comments are here to kinda fix the spacing after the inlinelist.
+\makeatother
+
+\newcommand{\numitems}[1]{\numToWord{\getrefnumber{#1}}}
+
+% Counting the items
+% https://tex.stackexchange.com/questions/296098/counting-items-in-itemize-or-enumerate-environments
+%\usepackage{xpatch}
+%\usepackage{refcount}
+
+%\newcommand{\numitems}[1]{\getrefnumber{#1}}
+%\newcounter{itemcntr}
+
+%\AtBeginEnvironment{itemize}{%
+%\setcounter{itemcntr}{0}%
+%\xapptocmd{\item}{\refstepcounter{itemcntr}}{}{}%
+%}
+
+% https://tex.stackexchange.com/questions/227858/howto-convert-roman-into-arabic-numeral
+\usepackage{xparse}
+\ExplSyntaxOn
+\DeclareExpandableDocumentCommand{\arabicnumeral}{m}
+ {
+  \int_from_roman:n { #1 }
+ }
+\ExplSyntaxOff
+
+% Numbers to string
+% Similar to makeAlph above
+% TODO: Tohle prostě nefunguje. Převod jde, ale \ref vrací něco, co se nedá převést. I když je to pořád ii.
+\newcommand{\numToWord}[1]{%
+  \ifnum\arabicnumeral{#1}=-1
+    \ifcase #1?\or one\or two\or three\or four\or five\or six\or seven\or eight\or
+    nine\or ten\else #1\fi
+  \else
+    \ifcase \arabicnumeral{#1}?\or one\or two\or three\or four\or five\or six\or seven\or eight\or
+    nine\or ten\else \arabicnumeral{#1}\fi
+  \fi
+}
+
+% Clever references
+% Must be loaded after hyperref!
+\usepackage[capitalise]{cleveref}
+\crefformat{algorithm}{Alg.~#2#1#3}
+\Crefformat{algorithm}{Algorithm~#2#1#3}
+\crefformat{section}{Sec.~#2#1#3}
+\Crefformat{section}{Section~#2#1#3}
+\crefformat{subsection}{Sec.~#2#1#3}
+\Crefformat{subsection}{Section~#2#1#3}
+\crefformat{subsubsection}{Sec.~#2#1#3}
+\Crefformat{subsubsection}{Section~#2#1#3}
